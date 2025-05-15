@@ -11,7 +11,7 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-  ) {}
+  ) { }
 
   async create(createUserDto: CreateUserDto) {
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
@@ -46,5 +46,8 @@ export class UsersService {
     const user = await this.userRepository.findOne({ where: { id } });
     if (!user) return null;
     return this.userRepository.remove(user);
+  }
+  async findByUsername(username: string) {
+    return this.userRepository.findOne({ where: { username } });
   }
 }
