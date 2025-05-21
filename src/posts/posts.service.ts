@@ -3,17 +3,17 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
-import { Post } from './entities/post.entity';
-import { Category } from 'src/categories/entities/category.entity';
+import { Posts } from './entities/post.entity';
+import { Categories } from 'src/categories/entities/category.entity';
 
 @Injectable()
 export class PostsService {
     constructor(
-        @InjectRepository(Post)
-        private readonly postRepository: Repository<Post>,
+        @InjectRepository(Posts)
+        private readonly postRepository: Repository<Posts>,
 
-        @InjectRepository(Category)
-        private readonly categoryRepository: Repository<Category>,
+        @InjectRepository(Categories)
+        private readonly categoryRepository: Repository<Categories>,
     ) { }
 
     async create(createPostDto: CreatePostDto) {
