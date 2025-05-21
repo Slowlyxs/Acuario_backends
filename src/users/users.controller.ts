@@ -2,6 +2,7 @@ import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common'
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { SuccessResponseDto } from 'src/common/dto/response.dto';
 
 @Controller('users')
 export class UsersController {
@@ -18,8 +19,9 @@ export class UsersController {
     }
 
     @Get(':id')
-    findOne(@Param('id') id: string) {
-        return this.usersService.findOne(id);
+    async findOne(@Param('id') id: string) {
+        const user = await this.usersService.findOne(id);
+        return new SuccessResponseDto('User retrieved', user);
     }
 
     @Put(':id')
