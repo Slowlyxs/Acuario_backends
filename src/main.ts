@@ -11,6 +11,6 @@ async function bootstrap() {
   app.useGlobalFilters(new GlobalHttpExceptionFilter());
   app.useStaticAssets(join(__dirname, '..', 'public')); // Sirve los archivos estaticos
   app.enableCors();
-  await app.listen(process.env.PORT ?? 3001);
+  await app.listen(process.env.PORT ?? 3017);
 }
 bootstrap();
