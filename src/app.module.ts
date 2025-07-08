@@ -1,17 +1,12 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
-import { CategoriesModule } from './categories/categories.module';
-import { PostsModule } from './posts/posts.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ProductoModule } from './producto/producto.module';
-import { DetalleVentaModule } from './detalle_venta/detalle_venta.module';
-import { ClienteModule } from './cliente/cliente.module';
-import { SucursalModule } from './sucursal/sucursal.module';
-import { VentaModule } from './venta/venta.module';
+import { AlimentosAguaDulceModule } from './alimentos_agua_dulce/alimentos_agua_dulce.module';
+import { PecesAguaDulceModule } from './peces_agua_dulce/peces_agua_dulce.module';
+import { PecesAguaDulceExoticosModule } from './peces_agua_dulce_exoticos/peces_agua_dulce_exoticos.module';
+import { PlantasAguaDulceModule } from './plantas_agua_dulce/plantas_agua_dulce.module';
 
 @Module({
   imports: [
@@ -25,26 +20,23 @@ import { VentaModule } from './venta/venta.module';
       database: process.env.DB_NAME,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
-       ssl:true
+      ssl: true,
     }),
-    AuthModule,
-    UsersModule,
-    CategoriesModule,
-    PostsModule,
-    ProductoModule,
-    DetalleVentaModule,
-    ClienteModule,
-    VentaModule,
-    SucursalModule
-
+    AlimentosAguaDulceModule,
+    PecesAguaDulceModule,
+    PecesAguaDulceExoticosModule,
+    PlantasAguaDulceModule,
   ],
   controllers: [
     AppController,
-    // Aqui se colocan los endpoints
+    // Aquí se colocan los endpoints
   ],
   providers: [
     AppService,
     // Servicios adicionales o complementarios
   ],
 })
-export class AppModule { }
+export class AppModule  {
+  // Este módulo es el punto de entrada de la aplicación
+  // Aquí se importan los módulos necesarios y se configuran los controladores y servicios
+}
