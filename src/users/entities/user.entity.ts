@@ -1,19 +1,20 @@
+// users/entities/user.entity.ts
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@Entity('users')
+@Entity()
 export class User {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column({ unique: true })
+  @Column()
     username: string;
 
-    @Column()
-    password: string;
+  @Column({ unique: true })
+  email: string;
 
-    @Column({ default: true })
-    isActive: boolean;
+  @Column()
+  password: string;
 
-    @Column({ nullable: true })
-    profile: string;
+  @Column({ default: 'user' }) // "admin", "user", etc.
+  role: string;
 }
