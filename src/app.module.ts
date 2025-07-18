@@ -7,6 +7,7 @@ import { AlimentosAguaDulceModule } from './alimentos_agua_dulce/alimentos_agua_
 import { PecesAguaDulceModule } from './peces_agua_dulce/peces_agua_dulce.module';
 import { PecesAguaDulceExoticosModule } from './peces_agua_dulce_exoticos/peces_agua_dulce_exoticos.module';
 import { PlantasAguaDulceModule } from './plantas_agua_dulce/plantas_agua_dulce.module';
+import { EquipoModule } from './Equipo_trabajo/equipo.module';
 
 @Module({
   imports: [
@@ -20,12 +21,13 @@ import { PlantasAguaDulceModule } from './plantas_agua_dulce/plantas_agua_dulce.
       database: process.env.DB_NAME,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
-      ssl: true,
+      ssl: false,
     }),
     AlimentosAguaDulceModule,
     PecesAguaDulceModule,
     PecesAguaDulceExoticosModule,
     PlantasAguaDulceModule,
+    EquipoModule,
   ],
   controllers: [
     AppController,
@@ -36,7 +38,7 @@ import { PlantasAguaDulceModule } from './plantas_agua_dulce/plantas_agua_dulce.
     // Servicios adicionales o complementarios
   ],
 })
-export class AppModule  {
+export class AppModule {
   // Este módulo es el punto de entrada de la aplicación
   // Aquí se importan los módulos necesarios y se configuran los controladores y servicios
 }
