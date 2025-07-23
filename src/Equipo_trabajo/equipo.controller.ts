@@ -1,13 +1,6 @@
-import {
-  Controller,
-  Get,
-  Param,
-  Put,
-  Body,
-  UploadedFile,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Controller, Get, Post, Put, Param, Body, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { EquipoService } from './equipo.service';
+import { CreateEquipoDto } from './dto/create-equipo.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
@@ -24,6 +17,11 @@ export class EquipoController {
   @Get(':id')
   getMiembro(@Param('id') id: string) {
     return this.equipoService.findOne(+id);
+  }
+
+  @Post()
+  createMiembro(@Body() createEquipoDto: CreateEquipoDto) {
+    return this.equipoService.create(createEquipoDto);
   }
 
   @Put(':id')

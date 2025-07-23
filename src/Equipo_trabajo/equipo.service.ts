@@ -1,61 +1,42 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Equipo } from './entity/equipo.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Equipo } from './entities/equipo.entity';
+import { CreateEquipoDto } from './dto/create-equipo.dto';
 
 @Injectable()
 export class EquipoService {
-  private equipo: Equipo[] = [
-    {
-      id: 1,
-      nombre: 'Carlos Mendoza',
-      puesto: 'Fundador & Acuarista Experto',
-      experiencia: '20 años',
-      especialidad: 'Peces tropicales y marinos',
-      descripcion: 'Biólogo marino con pasión por la acuariofilia desde la infancia.',
-      foto: '',
-    },
-    {
-      id: 2,
-      nombre: 'María González',
-      puesto: 'Especialista en Agua Dulce',
-      experiencia: '12 años',
-      especialidad: 'Peces de agua dulce y plantas',
-      descripcion: 'Experta en ecosistemas de agua dulce y cuidado de plantas acuáticas.',
-      foto: '',
-    },
-    {
-      id: 3,
-      nombre: 'Roberto Silva',
-      puesto: 'Técnico en Sistemas',
-      experiencia: '8 años',
-      especialidad: 'Equipos y filtración',
-      descripcion: 'Especialista en sistemas de filtración y equipos de acuarios.',
-      foto: '',
-    },
-  ];
+  constructor(
+    @InjectRepository(Equipo)
+    private readonly equipoRepository: Repository<Equipo>,
+  ) {}
 
-  findAll(): Equipo[] {
-    return this.equipo;
+  findAll(): Promise<Equipo[]> {
+    return this.equipoRepository.find();
   }
 
-  findOne(id: number): Equipo {
-    const miembro = this.equipo.find((e) => e.id === id);
+  async findOne(id: number): Promise<Equipo> {
+    const miembro = await this.equipoRepository.findOneBy({ id });
     if (!miembro) {
       throw new NotFoundException(`Miembro con id ${id} no encontrado.`);
     }
     return miembro;
   }
 
-  update(id: number, data: Partial<Equipo>): Equipo {
-    const miembro = this.findOne(id);
-    const actualizado = { ...miembro, ...data };
-    const index = this.equipo.findIndex((e) => e.id === id);
-    this.equipo[index] = actualizado;
-    return actualizado;
+  create(data: CreateEquipoDto): Promise<Equipo> {
+    const miembro = this.equipoRepository.create(data);
+    return this.equipoRepository.save(miembro);
   }
 
-  uploadPhoto(id: number, filename: string): Equipo {
-    const miembro = this.findOne(id);
+  async update(id: number, data: Partial<Equipo>): Promise<Equipo> {
+    const miembro = await this.findOne(id);
+    Object.assign(miembro, data);
+    return this.equipoRepository.save(miembro);
+  }
+
+  async uploadPhoto(id: number, filename: string): Promise<Equipo> {
+    const miembro = await this.findOne(id);
     miembro.foto = filename;
-    return miembro;
+    return this.equipoRepository.save(miembro);
   }
 }

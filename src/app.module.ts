@@ -3,15 +3,20 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AlimentosAguaDulceModule } from './alimentos_agua_dulce/alimentos_agua_dulce.module';
-import { PecesAguaDulceModule } from './peces_agua_dulce/peces_agua_dulce.module';
-import { PecesAguaDulceExoticosModule } from './peces_agua_dulce_exoticos/peces_agua_dulce_exoticos.module';
-import { PlantasAguaDulceModule } from './plantas_agua_dulce/plantas_agua_dulce.module';
+import { MongooseModule } from '@nestjs/mongoose';
+
 import { EquipoModule } from './Equipo_trabajo/equipo.module';
+import { CarritoModule } from './carrito/carrito.module';
+import { ProductosModule } from './productos/productos.module';
+import { PedidosModule } from './pedidos/pedidos.module';
+import { TestimoniosModule } from './testimonios/testimonios.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
+
+    // PostgreSQL
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST,
@@ -21,24 +26,21 @@ import { EquipoModule } from './Equipo_trabajo/equipo.module';
       database: process.env.DB_NAME,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
-      ssl: false,
+      ssl:process.env.DB_SSL === 'true',
     }),
-    AlimentosAguaDulceModule,
-    PecesAguaDulceModule,
-    PecesAguaDulceExoticosModule,
-    PlantasAguaDulceModule,
+
+    // MongoDB Atlas
+    MongooseModule.forRoot(process.env.MONGODB_URI!),
+
+    // Otros módulos
+    CarritoModule,
     EquipoModule,
+    ProductosModule,
+    PedidosModule,
+    TestimoniosModule,
+    AuthModule,
   ],
-  controllers: [
-    AppController,
-    // Aquí se colocan los endpoints
-  ],
-  providers: [
-    AppService,
-    // Servicios adicionales o complementarios
-  ],
+  controllers: [AppController],
+  providers: [AppService],
 })
-export class AppModule {
-  // Este módulo es el punto de entrada de la aplicación
-  // Aquí se importan los módulos necesarios y se configuran los controladores y servicios
-}
+export class AppModule {}
