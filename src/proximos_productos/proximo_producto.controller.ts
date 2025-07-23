@@ -1,6 +1,7 @@
-import { Controller, Post, Body, Get, Param, Delete } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Delete, Put } from '@nestjs/common';
 import { ProximoProductoService } from './proximo_producto.service';
 import { CreateProximoProductoDto } from './dto/proximo_producto.dto';
+import { UpdateProximoProductoDto } from './dto/update-proximo-producto.dto';
 
 @Controller('proximos-productos')
 export class ProximoProductoController {
@@ -19,6 +20,11 @@ export class ProximoProductoController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.service.findOne(id);
+  }
+
+  @Put(':id')
+  update(@Param('id') id: string, @Body() dto: UpdateProximoProductoDto) {
+    return this.service.update(id, dto);
   }
 
   @Delete(':id')
