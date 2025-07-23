@@ -17,7 +17,7 @@ export class CreateUserDto {
   @MinLength(6)
   password: string;
 
-  @IsEnum(UserRole)
+  @IsEnum(UserRole)   
   @IsOptional()
   role?: UserRole;  // Por defecto en el service usas 'user' si no se manda
 }

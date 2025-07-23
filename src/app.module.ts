@@ -11,6 +11,7 @@ import { ProductosModule } from './productos/productos.module';
 import { PedidosModule } from './pedidos/pedidos.module';
 import { TestimoniosModule } from './testimonios/testimonios.module';
 import { AuthModule } from './auth/auth.module';
+import { ProximoProductoModule } from './proximos_productos/proximo_producto.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { AuthModule } from './auth/auth.module';
     PedidosModule,
     TestimoniosModule,
     AuthModule,
+    ProximoProductoModule,
   ],
   controllers: [AppController],
   providers: [AppService],
