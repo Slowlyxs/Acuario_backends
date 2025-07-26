@@ -1,16 +1,17 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+// carrito.entity.ts
+import { Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
+import { User } from '../../users/user.entity';
+import { CarritoItem } from './carrito-item.entity';
 
 @Entity('carritos')
 export class Carrito {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
-  usuarioId: string; // Id del usuario que posee este carrito
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'userId' })
+  user: User;
 
-  @Column('jsonb')
-  items: {
-    productoId: string;
-    cantidad: number;
-  }[];
+  @OneToMany(() => CarritoItem, (item) => item.carrito, { cascade: true, eager: true })
+  items: CarritoItem[];
 }

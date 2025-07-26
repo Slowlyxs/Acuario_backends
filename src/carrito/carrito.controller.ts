@@ -1,28 +1,57 @@
-import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Param,
+  Body,
+  UseGuards,
+} from '@nestjs/common';
 import { CarritoService } from './carrito.service';
-import { CreateCarritoDto } from './dto/create-carrito.dto';
+import { AddItemDto } from './dto/add-item.dto';
+import { UpdateItemDto } from './dto/update-item.dto';
+import { AuthGuard } from '@nestjs/passport';
 
-@Controller('carritos')
+@Controller('carrito')
+@UseGuards(AuthGuard)
 export class CarritoController {
   constructor(private readonly carritoService: CarritoService) {}
 
-  @Post()
-  create(@Body() createCarritoDto: CreateCarritoDto) {
-    return this.carritoService.create(createCarritoDto);
+  @Get(':userId')
+  async getCarrito(@Param('userId') userId: number) {
+    return this.carritoService.getCarritoByUser(userId);
   }
 
-  @Get()
-  findAll() {
-    return this.carritoService.findAll();
+  @Post(':userId')
+  async addItem(@Param('userId') userId: number, @Body() dto: AddItemDto) {
+    return this.carritoService.addItem(userId, dto);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.carritoService.findOne(id);
+  @Put(':userId/:productoId')
+  async updateItem(
+    @Param('userId') userId: number,
+    @Param('productoId') productoId: string,
+    @Body() dto: UpdateItemDto,
+  ) {
+    return this.carritoService.updateItem(userId, productoId, dto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.carritoService.remove(id);
+  @Delete(':userId/:productoId')
+  async removeItem(
+    @Param('userId') userId: number,
+    @Param('productoId') productoId: string,
+  ) {
+    return this.carritoService.removeItem(userId, productoId);
+  }
+
+  @Delete(':userId')
+  async clearCarrito(@Param('userId') userId: number) {
+    return this.carritoService.clearCarrito(userId);
+  }
+
+  @Post('comprar/:userId')
+  async comprar(@Param('userId') userId: number) {
+    return this.carritoService.comprar(userId);
   }
 }

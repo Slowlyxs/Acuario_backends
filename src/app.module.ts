@@ -41,6 +41,7 @@ import { ProximoProductoModule } from './proximos_productos/proximo_producto.mod
     TestimoniosModule,
     ProximoProductoModule,
     AuthModule,
+    CarritoModule,
   ],
   controllers: [AppController],
   providers: [AppService],

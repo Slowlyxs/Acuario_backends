@@ -1,4 +1,4 @@
-import { IsString, IsNumber, IsOptional, IsEnum, IsPhoneNumber } from 'class-validator';
+import { IsString, IsNumber, IsOptional, IsEnum} from 'class-validator';
 import { CategoriaProducto } from '../entity/categoria.enum';
 
 export class CreateProductoDto {
