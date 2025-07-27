@@ -14,7 +14,7 @@ import { UpdateItemDto } from './dto/update-item.dto';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('carrito')
-@UseGuards(AuthGuard)
+@UseGuards(AuthGuard('jwt')) // ✅ Asumiendo que usas la estrategia 'jwt'
 export class CarritoController {
   constructor(private readonly carritoService: CarritoService) {}
 
